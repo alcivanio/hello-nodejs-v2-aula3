@@ -1,0 +1,122 @@
+CREATE TABLE "evento" (
+	`id_evento`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`desc_evento`	VARCHAR(255) NOT NULL,
+	`data_evento`	DATE NOT NULL
+);
+
+
+CREATE TABLE "cachorro"(
+	id_cachorro INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT UNIQUE,
+	nome_cachorro VARCHAR(255) NOT NULL,
+	raca_cachorro VARCHAR(255)
+);
+
+CREATE TABLE "contato_agenda"(
+	id_contato_agenda INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	nome_contato_agenda VARCHAR(255) NOT NULL,
+	telefone_contato_agenda VARCHAR(255)
+);
+
+
+-- alterando tabela cachorro
+ALTER TABLE "cachorro" ADD COLUMN "data_nascimento_cachorro" DATE;
+
+
+-- remove a tabela com todos os dados
+DROP TABLE "cachorro"
+
+
+-- agora vamos adicionar alguns dados a aplicacao
+insert into contato_agenda (nome_contato_agenda,telefone_contato_agenda) values ('Jane','123454321');
+insert into contato_agenda (nome_contato_agenda,telefone_contato_agenda) values ('José','987654321');
+insert into contato_agenda (nome_contato_agenda,telefone_contato_agenda) values ('Fran','543212345');
+insert into contato_agenda (nome_contato_agenda,telefone_contato_agenda) values ('João','123456789');
+
+insert into evento(desc_evento,data_evento) values ('Jantar fim de semana', '2016-11-19');
+insert into evento(desc_evento,data_evento) values ('Pegar uma praia', '2016-11-20');
+insert into evento(desc_evento,data_evento) values ('Natal', '2016-12-25');
+
+
+--vamos atualizar uma coluna da tabela 
+update contato_agenda set telefone_contato_agenda = '1111111111' where id_contato_agenda = 1;
+update evento set desc_evento = 'subir a serra' where data_evento = '2016-11-19';
+
+--deletar um dos contatos da agenda
+delete from contato_agenda where nome_contato_agenda = 'João';
+
+create table participantes_evento(
+  id_contato_agenda integer not null,
+  id_evento integer not null,
+  foreign key (id_contato_agenda) references contatoagenda(id_contato_agenda),
+  foreign key (id_evento) references evento(id_evento),
+  primary key (id_contato_agenda,id_evento)
+);
+
+
+--inserindo dados 
+
+insert into participantes_evento (id_contato_agenda,id_evento) values (1,1);
+insert into participantes_evento (id_contato_agenda,id_evento) values (2,1);
+insert into participantes_evento (id_contato_agenda,id_evento) values (1,3);
+insert into participantes_evento (id_contato_agenda,id_evento) values (1,2);
+insert into participantes_evento (id_contato_agenda,id_evento) values (2,3);
+insert into participantes_evento (id_contato_agenda,id_evento) values (3,3);
+
+
+select
+  *
+from
+  contato_agenda, evento, participantes_evento
+where
+    contato_agenda.id_contato_agenda = participantes_evento.id_contato_agenda
+and evento.id_evento = participantes_evento.id_evento
+and participantes_evento.id_evento = 3
+
+
+
+
+SELECT
+*
+FROM
+participantes_evento
+group by
+id_evento
+
+
+
+SELECT *
+FROM participantes_evento
+GROUP BY id_evento;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
